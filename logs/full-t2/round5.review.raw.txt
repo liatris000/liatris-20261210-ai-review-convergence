@@ -1,0 +1,9 @@
+[{"line": 16, "severity": "medium", "category": "validation", "title": "_to_decimal accepts NaN/Infinity (strings or Decimal instances), which later raise InvalidOperation at the comparison or quantize instead of a clear ValueError"},
+{"line": 44, "severity": "low", "category": "error-handling", "title": "Comparing a NaN percent raises decimal.InvalidOperation rather than the documented ValueError"},
+{"line": 27, "severity": "low", "category": "validation", "title": "int() also accepts underscores and non-ASCII digits (e.g. '1_000', '٣'), so the check is looser than a plain whole-number check"},
+{"line": 52, "severity": "low", "category": "validation", "title": "paginate does not check that page and size are ints; floats or strings fail later with a confusing TypeError"},
+{"line": 70, "severity": "low", "category": "performance", "title": "Duplicate check uses a list membership test, making the merge O(n*m); track seen tags in a set"},
+{"line": 82, "severity": "low", "category": "error-handling", "title": "Malformed JSON raises a bare JSONDecodeError without the config path for context"},
+{"line": 104, "severity": "low", "category": "validation", "title": "average_price does not validate qty; negative quantities can cancel out and produce misleading averages or a 0.0 result"},
+{"line": 106, "severity": "low", "category": "design", "title": "Money is computed with float/int arithmetic, inconsistent with the Decimal handling in apply_discount"},
+{"line": 123, "severity": "low", "category": "bug", "title": "Total is printed unformatted, so float artifacts (e.g. 0.30000000000000004) can appear in the summary"}]

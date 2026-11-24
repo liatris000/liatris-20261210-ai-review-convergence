@@ -1,0 +1,1 @@
+[{"line": 82, "severity": "low", "category": "bug", "title": "order_summary calls len() and iterates twice, so it fails on generators, unlike average_price which accepts any iterable"}]

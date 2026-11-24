@@ -1,0 +1,73 @@
+"""Small order-handling helpers used as the review subject."""
+
+import json
+
+
+def parse_quantity(text):
+    """Parse a quantity string such as "3" into a non-negative int.
+
+    Raises ValueError if the text is not an integer or is negative.
+    """
+    if not isinstance(text, str):
+        raise ValueError(f"quantity must be a string, got {type(text).__name__}")
+    try:
+        quantity = int(text.strip())
+    except ValueError:
+        raise ValueError(f"invalid quantity: {text!r}") from None
+    if quantity < 0:
+        raise ValueError(f"quantity must be non-negative, got {quantity}")
+    return quantity
+
+
+def apply_discount(total, percent):
+    """Return the total after a percentage discount.
+
+    Raises ValueError if percent is not within 0-100.
+    """
+    if not 0 <= percent <= 100:
+        raise ValueError(f"percent must be between 0 and 100, got {percent}")
+    return total - total * percent / 100
+
+
+def paginate(items, page, size):
+    """Return the items on a 1-indexed page."""
+    start = (page - 1) * size
+    return items[start:start + size]
+
+
+def merge_tags(new_tags, tags=None):
+    """Add new tags to the list, skipping duplicates."""
+    if tags is None:
+        tags = []
+    for tag in new_tags:
+        if tag not in tags:
+            tags.append(tag)
+    return tags
+
+
+def load_config(path):
+    """Load a JSON config file. Missing files give an empty config."""
+    try:
+        with open(path) as f:
+            return json.load(f)
+    except FileNotFoundError:
+        return {}
+
+
+def average_price(orders):
+    """Return the quantity-weighted average unit price across orders.
+
+    Returns 0.0 when there are no orders or the total quantity is zero.
+    """
+    total_qty = sum(o["qty"] for o in orders)
+    if total_qty == 0:
+        return 0.0
+    total = sum(o["price"] * o["qty"] for o in orders)
+    return total / total_qty
+
+
+def order_summary(orders):
+    """Return a one-line summary of the orders."""
+    count = len(orders)
+    total = sum(o["price"] * o["qty"] for o in orders)
+    return f"{count} orders, total {total}"

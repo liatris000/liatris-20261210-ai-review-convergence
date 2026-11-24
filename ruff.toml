@@ -1,0 +1,8 @@
+# 成果物の Python コードの lint 設定
+line-length = 120
+target-version = "py311"
+# subject/ は不具合をわざと仕込んだレビュー対象なので lint しない。work/ と logs/ は実行で生まれるコードの写し
+extend-exclude = ["subject", "work", "logs"]
+
+[lint]
+select = ["E", "F", "W", "B"]

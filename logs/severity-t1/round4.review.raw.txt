@@ -1,0 +1,1 @@
+[{"line": 45, "severity": "low", "category": "performance", "title": "Duplicate check uses a list membership test, so merging is O(n*m); use a set for seen tags"}]

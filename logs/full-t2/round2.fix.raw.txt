@@ -1,0 +1,86 @@
+```python
+"""Small order-handling helpers used as the review subject."""
+
+import json
+
+
+def parse_quantity(text):
+    """Parse a quantity string such as "3" into a non-negative int.
+
+    Raises ValueError if the text is not a whole number or is negative.
+    """
+    try:
+        value = int(str(text).strip())
+    except (TypeError, ValueError):
+        raise ValueError(f"Invalid quantity: {text!r} is not a whole number") from None
+    if value < 0:
+        raise ValueError(f"Invalid quantity: {value} is negative")
+    return value
+
+
+def apply_discount(total, percent):
+    """Return the total after a percentage discount (0-100)."""
+    if not 0 <= percent <= 100:
+        raise ValueError(f"percent must be between 0 and 100, got {percent}")
+    return total - total * percent / 100
+
+
+def paginate(items, page, size):
+    """Return the items on a 1-indexed page."""
+    if page < 1:
+        raise ValueError(f"page must be >= 1, got {page}")
+    if size <= 0:
+        raise ValueError(f"size must be > 0, got {size}")
+    start = (page - 1) * size
+    return items[start:start + size]
+
+
+def merge_tags(new_tags, tags=None):
+    """Add new tags to the list, skipping duplicates.
+
+    If ``tags`` is given, it is mutated in place: new tags are appended to
+    the caller's list, and that same list object is returned. If ``tags`` is
+    None, a new list is created and returned.
+    """
+    if tags is None:
+        tags = []
+    for tag in new_tags:
+        if tag not in tags:
+            tags.append(tag)
+    return tags
+
+
+def load_config(path):
+    """Load a JSON config file. Missing files give an empty config."""
+    try:
+        with open(path, encoding="utf-8") as f:
+            return json.load(f)
+    except FileNotFoundError:
+        return {}
+
+
+def average_price(orders):
+    """Return the quantity-weighted average unit price across orders.
+
+    Accepts any iterable of orders, including generators; it is consumed
+    in a single pass.
+
+    Returns 0.0 when there are no orders or the total quantity is zero.
+    """
+    total_qty = 0
+    total = 0
+    for o in orders:
+        qty = o["qty"]
+        total_qty += qty
+        total += o["price"] * qty
+    if total_qty == 0:
+        return 0.0
+    return total / total_qty
+
+
+def order_summary(orders):
+    """Return a one-line summary of the orders."""
+    count = len(orders)
+    total = sum(o["price"] * o["qty"] for o in orders)
+    return f"{count} orders, total {total}"
+```

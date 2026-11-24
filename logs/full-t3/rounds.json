@@ -1,0 +1,125 @@
+{
+  "mode": "full",
+  "trial": 3,
+  "max_rounds": 5,
+  "rounds": [
+    {
+      "round": 1,
+      "tests_passed_before": 0,
+      "findings": [
+        {
+          "line": 13,
+          "severity": "high",
+          "category": "bug",
+          "title": "Discount divides percent by 10 instead of 100",
+          "origin": "fa0141c52c86740de125eed12452be53c4908326",
+          "orig_line": 13,
+          "seeded": "discount-scale",
+          "kind": "original_line"
+        },
+        {
+          "line": 18,
+          "severity": "high",
+          "category": "bug",
+          "title": "Off-by-one: 1-indexed page should start at (page - 1) * size",
+          "origin": "fa0141c52c86740de125eed12452be53c4908326",
+          "orig_line": 18,
+          "seeded": "page-offset",
+          "kind": "original_line"
+        },
+        {
+          "line": 22,
+          "severity": "high",
+          "category": "bug",
+          "title": "Mutable default argument tags=[] is shared across calls",
+          "origin": "fa0141c52c86740de125eed12452be53c4908326",
+          "orig_line": 22,
+          "seeded": "mutable-default",
+          "kind": "original_line"
+        },
+        {
+          "line": 33,
+          "severity": "medium",
+          "category": "error-handling",
+          "title": "File opened without context manager; handle is never closed",
+          "origin": "fa0141c52c86740de125eed12452be53c4908326",
+          "orig_line": 33,
+          "seeded": "swallow-errors",
+          "kind": "original_line"
+        },
+        {
+          "line": 35,
+          "severity": "medium",
+          "category": "error-handling",
+          "title": "Broad except Exception hides JSON errors and permission problems; should catch only FileNotFoundError",
+          "origin": "fa0141c52c86740de125eed12452be53c4908326",
+          "orig_line": 35,
+          "seeded": "swallow-errors",
+          "kind": "original_line"
+        },
+        {
+          "line": 42,
+          "severity": "medium",
+          "category": "error-handling",
+          "title": "ZeroDivisionError when orders list is empty",
+          "origin": "fa0141c52c86740de125eed12452be53c4908326",
+          "orig_line": 42,
+          "seeded": "empty-average",
+          "kind": "original_line"
+        },
+        {
+          "line": 41,
+          "severity": "low",
+          "category": "bug",
+          "title": "Average unit price ignores quantity; unweighted mean may be incorrect",
+          "origin": "fa0141c52c86740de125eed12452be53c4908326",
+          "orig_line": 41,
+          "seeded": "empty-average",
+          "kind": "original_line"
+        },
+        {
+          "line": 8,
+          "severity": "low",
+          "category": "validation",
+          "title": "No validation of negative or non-numeric quantities; ValueError not handled or documented",
+          "origin": "fa0141c52c86740de125eed12452be53c4908326",
+          "orig_line": 8,
+          "seeded": "negative-qty",
+          "kind": "original_line"
+        },
+        {
+          "line": 11,
+          "severity": "low",
+          "category": "validation",
+          "title": "No validation that percent is within 0-100",
+          "origin": "fa0141c52c86740de125eed12452be53c4908326",
+          "orig_line": 11,
+          "seeded": "discount-scale",
+          "kind": "original_line"
+        },
+        {
+          "line": 16,
+          "severity": "low",
+          "category": "validation",
+          "title": "No validation for page < 1 or size <= 0",
+          "origin": "fa0141c52c86740de125eed12452be53c4908326",
+          "orig_line": 16,
+          "seeded": "page-offset",
+          "kind": "original_line"
+        }
+      ],
+      "fixed_requested": 10,
+      "cost_usd": 0.0547
+    },
+    {
+      "round": 2,
+      "tests_passed_before": 6,
+      "findings": [],
+      "fixed_requested": 0,
+      "cost_usd": 0.0285,
+      "stopped": true
+    }
+  ],
+  "tests_passed_final": 6,
+  "total_cost_usd": 0.0832
+}

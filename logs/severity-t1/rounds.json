@@ -1,0 +1,242 @@
+{
+  "mode": "severity",
+  "trial": 1,
+  "max_rounds": 5,
+  "rounds": [
+    {
+      "round": 1,
+      "tests_passed_before": 0,
+      "findings": [
+        {
+          "line": 13,
+          "severity": "high",
+          "category": "bug",
+          "title": "Discount divides percent by 10 instead of 100",
+          "origin": "8eb88eed0a07d0ffa6c47b39a0dca128b538fab9",
+          "orig_line": 13,
+          "seeded": "discount-scale",
+          "kind": "original_line"
+        },
+        {
+          "line": 18,
+          "severity": "high",
+          "category": "bug",
+          "title": "Off-by-one: 1-indexed page should start at (page - 1) * size",
+          "origin": "8eb88eed0a07d0ffa6c47b39a0dca128b538fab9",
+          "orig_line": 18,
+          "seeded": "page-offset",
+          "kind": "original_line"
+        },
+        {
+          "line": 22,
+          "severity": "high",
+          "category": "bug",
+          "title": "Mutable default argument tags=[] is shared across calls",
+          "origin": "8eb88eed0a07d0ffa6c47b39a0dca128b538fab9",
+          "orig_line": 22,
+          "seeded": "mutable-default",
+          "kind": "original_line"
+        },
+        {
+          "line": 33,
+          "severity": "medium",
+          "category": "error-handling",
+          "title": "File opened without context manager is never closed",
+          "origin": "8eb88eed0a07d0ffa6c47b39a0dca128b538fab9",
+          "orig_line": 33,
+          "seeded": "swallow-errors",
+          "kind": "original_line"
+        },
+        {
+          "line": 35,
+          "severity": "medium",
+          "category": "error-handling",
+          "title": "Broad except swallows all errors (e.g. invalid JSON, permissions) instead of only FileNotFoundError",
+          "origin": "8eb88eed0a07d0ffa6c47b39a0dca128b538fab9",
+          "orig_line": 35,
+          "seeded": "swallow-errors",
+          "kind": "original_line"
+        },
+        {
+          "line": 42,
+          "severity": "medium",
+          "category": "bug",
+          "title": "ZeroDivisionError when orders is empty",
+          "origin": "8eb88eed0a07d0ffa6c47b39a0dca128b538fab9",
+          "orig_line": 42,
+          "seeded": "empty-average",
+          "kind": "original_line"
+        },
+        {
+          "line": 8,
+          "severity": "low",
+          "category": "validation",
+          "title": "No validation for negative or non-numeric quantities",
+          "origin": "8eb88eed0a07d0ffa6c47b39a0dca128b538fab9",
+          "orig_line": 8,
+          "seeded": "negative-qty",
+          "kind": "original_line"
+        },
+        {
+          "line": 11,
+          "severity": "low",
+          "category": "validation",
+          "title": "No range check on discount percent (0-100)",
+          "origin": "8eb88eed0a07d0ffa6c47b39a0dca128b538fab9",
+          "orig_line": 11,
+          "seeded": "discount-scale",
+          "kind": "original_line"
+        },
+        {
+          "line": 16,
+          "severity": "low",
+          "category": "validation",
+          "title": "No validation that page >= 1 and size > 0",
+          "origin": "8eb88eed0a07d0ffa6c47b39a0dca128b538fab9",
+          "orig_line": 16,
+          "seeded": "page-offset",
+          "kind": "original_line"
+        },
+        {
+          "line": 41,
+          "severity": "low",
+          "category": "bug",
+          "title": "Average unit price ignores quantity weighting, inconsistent with order_summary",
+          "origin": "8eb88eed0a07d0ffa6c47b39a0dca128b538fab9",
+          "orig_line": 41,
+          "seeded": "empty-average",
+          "kind": "original_line"
+        }
+      ],
+      "fixed_requested": 6,
+      "cost_usd": 0.0614
+    },
+    {
+      "round": 2,
+      "tests_passed_before": 5,
+      "findings": [
+        {
+          "line": 18,
+          "severity": "medium",
+          "category": "validation",
+          "title": "paginate does not validate page >= 1 and size > 0; page=0 gives a negative start and silently returns items from the end of the list",
+          "origin": "df4f9a71067f580fbc9b637c2b6bcbd1ce65611e",
+          "orig_line": 18,
+          "seeded": null,
+          "kind": "fix_line"
+        },
+        {
+          "line": 13,
+          "severity": "low",
+          "category": "validation",
+          "title": "apply_discount accepts percent outside 0-100, which allows negative totals or price increases",
+          "origin": "df4f9a71067f580fbc9b637c2b6bcbd1ce65611e",
+          "orig_line": 13,
+          "seeded": null,
+          "kind": "fix_line"
+        },
+        {
+          "line": 8,
+          "severity": "low",
+          "category": "validation",
+          "title": "parse_quantity accepts negative or zero quantities without checking",
+          "origin": "8eb88eed0a07d0ffa6c47b39a0dca128b538fab9",
+          "orig_line": 8,
+          "seeded": "negative-qty",
+          "kind": "repeat"
+        },
+        {
+          "line": 27,
+          "severity": "low",
+          "category": "performance",
+          "title": "merge_tags checks membership in a list, which is O(n*m) for large tag lists; track seen tags in a set",
+          "origin": "8eb88eed0a07d0ffa6c47b39a0dca128b538fab9",
+          "orig_line": 25,
+          "seeded": "mutable-default",
+          "kind": "original_line"
+        },
+        {
+          "line": 53,
+          "severity": "low",
+          "category": "style",
+          "title": "order_summary prints the float total without formatting, so output can look like 10.299999999999999",
+          "origin": "8eb88eed0a07d0ffa6c47b39a0dca128b538fab9",
+          "orig_line": 49,
+          "seeded": null,
+          "kind": "original_line"
+        }
+      ],
+      "fixed_requested": 1,
+      "cost_usd": 0.0551
+    },
+    {
+      "round": 3,
+      "tests_passed_before": 5,
+      "findings": [
+        {
+          "line": 8,
+          "severity": "medium",
+          "category": "validation",
+          "title": "parse_quantity accepts zero and negative quantities",
+          "origin": "8eb88eed0a07d0ffa6c47b39a0dca128b538fab9",
+          "orig_line": 8,
+          "seeded": "negative-qty",
+          "kind": "repeat"
+        },
+        {
+          "line": 13,
+          "severity": "medium",
+          "category": "validation",
+          "title": "apply_discount does not validate percent is within 0-100",
+          "origin": "df4f9a71067f580fbc9b637c2b6bcbd1ce65611e",
+          "orig_line": 13,
+          "seeded": null,
+          "kind": "repeat"
+        },
+        {
+          "line": 13,
+          "severity": "low",
+          "category": "design",
+          "title": "Monetary values computed with floats; consider Decimal for currency",
+          "origin": "df4f9a71067f580fbc9b637c2b6bcbd1ce65611e",
+          "orig_line": 13,
+          "seeded": null,
+          "kind": "fix_line"
+        },
+        {
+          "line": 35,
+          "severity": "low",
+          "category": "design",
+          "title": "merge_tags mutates the caller's tags list in place, which the docstring does not state",
+          "origin": "8eb88eed0a07d0ffa6c47b39a0dca128b538fab9",
+          "orig_line": 26,
+          "seeded": "mutable-default",
+          "kind": "original_line"
+        }
+      ],
+      "fixed_requested": 2,
+      "cost_usd": 0.0561
+    },
+    {
+      "round": 4,
+      "tests_passed_before": 6,
+      "findings": [
+        {
+          "line": 45,
+          "severity": "low",
+          "category": "performance",
+          "title": "Duplicate check uses a list membership test, so merging is O(n*m); use a set for seen tags",
+          "origin": "8eb88eed0a07d0ffa6c47b39a0dca128b538fab9",
+          "orig_line": 25,
+          "seeded": "mutable-default",
+          "kind": "repeat"
+        }
+      ],
+      "fixed_requested": 0,
+      "cost_usd": 0.0285,
+      "stopped": true
+    }
+  ],
+  "tests_passed_final": 6,
+  "total_cost_usd": 0.2011
+}

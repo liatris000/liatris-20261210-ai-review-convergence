@@ -1,0 +1,8 @@
+[
+  {"id": "negative-qty", "function": "parse_quantity", "summary": "負の数量を受け付ける"},
+  {"id": "discount-scale", "function": "apply_discount", "summary": "percent を 10 で割っている(100 のはず)"},
+  {"id": "page-offset", "function": "paginate", "summary": "1 始まりのページなのに start = page * size で 1 ページ目を飛ばす"},
+  {"id": "mutable-default", "function": "merge_tags", "summary": "既定引数のリストが呼び出し間で共有される"},
+  {"id": "swallow-errors", "function": "load_config", "summary": "壊れた JSON も権限エラーも握りつぶして {} を返す。ファイルも閉じない"},
+  {"id": "empty-average", "function": "average_price", "summary": "空のリストで ZeroDivisionError"}
+]

@@ -1,0 +1,182 @@
+```python
+"""Small order-handling helpers used as the review subject."""
+
+import json
+import re
+from decimal import Decimal, InvalidOperation, ROUND_HALF_UP
+
+_CENT = Decimal("0.01")
+
+# Optional sign followed by ASCII digits only. This rejects things int()
+# would accept, such as underscores ("1_000") and non-ASCII digits ("٣").
+_WHOLE_NUMBER_RE = re.compile(r"[+-]?[0-9]+")
+
+
+def _to_decimal(value, name):
+    """Convert a number or numeric string to a finite Decimal.
+
+    Going through str() avoids importing binary float error,
+    e.g. Decimal(0.1) vs Decimal("0.1"). NaN and Infinity are rejected
+    with a ValueError so later comparisons and quantize() calls never
+    raise InvalidOperation.
+    """
+    if isinstance(value, Decimal):
+        result = value
+    else:
+        try:
+            result = Decimal(str(value).strip())
+        except (InvalidOperation, ValueError):
+            raise ValueError(f"{name} must be numeric, got {value!r}") from None
+    if not result.is_finite():
+        raise ValueError(f"{name} must be a finite number, got {value!r}")
+    return result
+
+
+def parse_quantity(text):
+    """Parse a quantity string such as "3" into a non-negative int.
+
+    Only ASCII digits with an optional leading sign are accepted.
+
+    Raises ValueError if the text is not a whole number or is negative.
+    """
+    stripped = str(text).strip()
+    if not _WHOLE_NUMBER_RE.fullmatch(stripped):
+        raise ValueError(f"Invalid quantity: {text!r} is not a whole number")
+    value = int(stripped)
+    if value < 0:
+        raise ValueError(f"Invalid quantity: {value} is negative")
+    return value
+
+
+def apply_discount(total, percent):
+    """Return the total after a percentage discount (0-100).
+
+    ``total`` and ``percent`` may be ints, floats, numeric strings, or
+    Decimals. Arithmetic is done with Decimal to avoid float rounding
+    errors, and the result is a Decimal rounded to cents (half-up).
+
+    Raises ValueError if either value is not a finite number or if
+    ``percent`` is outside 0-100.
+    """
+    total_d = _to_decimal(total, "total")
+    percent_d = _to_decimal(percent, "percent")
+    if not 0 <= percent_d <= 100:
+        raise ValueError(f"percent must be between 0 and 100, got {percent}")
+    discounted = total_d - total_d * percent_d / Decimal(100)
+    return discounted.quantize(_CENT, rounding=ROUND_HALF_UP)
+
+
+def _require_int(value, name):
+    """Raise TypeError unless value is an int (bools are rejected)."""
+    if isinstance(value, bool) or not isinstance(value, int):
+        raise TypeError(f"{name} must be an int, got {type(value).__name__}")
+
+
+def paginate(items, page, size):
+    """Return the items on a 1-indexed page.
+
+    Raises TypeError if ``page`` or ``size`` is not an int, and ValueError
+    if ``page`` < 1 or ``size`` <= 0.
+    """
+    _require_int(page, "page")
+    _require_int(size, "size")
+    if page < 1:
+        raise ValueError(f"page must be >= 1, got {page}")
+    if size <= 0:
+        raise ValueError(f"size must be > 0, got {size}")
+    start = (page - 1) * size
+    return items[start:start + size]
+
+
+def merge_tags(new_tags, tags=None):
+    """Add new tags to the list, skipping duplicates.
+
+    If ``tags`` is given, it is mutated in place: new tags are appended to
+    the caller's list, and that same list object is returned. If ``tags`` is
+    None, a new list is created and returned. Tags must be hashable.
+    """
+    if tags is None:
+        tags = []
+    seen = set(tags)
+    for tag in new_tags:
+        if tag not in seen:
+            seen.add(tag)
+            tags.append(tag)
+    return tags
+
+
+def load_config(path):
+    """Load a JSON config file. Missing files give an empty config.
+
+    Raises ValueError if the file is not valid JSON or if its top-level
+    JSON value is not an object.
+    """
+    try:
+        with open(path, encoding="utf-8") as f:
+            config = json.load(f)
+    except FileNotFoundError:
+        return {}
+    except json.JSONDecodeError as exc:
+        raise ValueError(
+            f"Config file {path!r} contains invalid JSON: {exc}"
+        ) from exc
+    if not isinstance(config, dict):
+        raise ValueError(
+            f"Config file {path!r} must contain a JSON object, "
+            f"got {type(config).__name__}"
+        )
+    return config
+
+
+def _order_amounts(order):
+    """Return (qty, price) for an order as (int, Decimal), validated.
+
+    Raises ValueError if qty is not a non-negative whole number or if
+    price is not a finite number.
+    """
+    qty = order["qty"]
+    if isinstance(qty, bool) or not isinstance(qty, (int, str)):
+        raise ValueError(f"Invalid quantity: {qty!r} is not a whole number")
+    qty = parse_quantity(qty)
+    price = _to_decimal(order["price"], "price")
+    return qty, price
+
+
+def average_price(orders):
+    """Return the quantity-weighted average unit price across orders.
+
+    Accepts any iterable of orders, including generators; it is consumed
+    in a single pass. Arithmetic is done with Decimal and the result is a
+    Decimal rounded to cents (half-up).
+
+    Returns Decimal("0.00") when there are no orders or the total quantity
+    is zero. Raises ValueError if any order has a negative or non-whole
+    quantity or a non-numeric price.
+    """
+    total_qty = 0
+    total = Decimal(0)
+    for o in orders:
+        qty, price = _order_amounts(o)
+        total_qty += qty
+        total += price * qty
+    if total_qty == 0:
+        return Decimal(0).quantize(_CENT)
+    return (total / total_qty).quantize(_CENT, rounding=ROUND_HALF_UP)
+
+
+def order_summary(orders):
+    """Return a one-line summary of the orders.
+
+    Accepts any iterable of orders, including generators; it is consumed
+    in a single pass. The total is computed with Decimal and shown with
+    two decimal places.
+    """
+    count = 0
+    total = Decimal(0)
+    for o in orders:
+        qty, price = _order_amounts(o)
+        count += 1
+        total += price * qty
+    total = total.quantize(_CENT, rounding=ROUND_HALF_UP)
+    return f"{count} orders, total {total:.2f}"
+```

@@ -1,0 +1,67 @@
+```python
+"""Small order-handling helpers used as the review subject."""
+
+import json
+
+
+def parse_quantity(text):
+    """Parse a quantity string such as "3" into an int."""
+    return int(text.strip())
+
+
+def apply_discount(total, percent):
+    """Return the total after a percentage discount.
+
+    Raises ValueError if percent is outside the range 0-100.
+    """
+    if not 0 <= percent <= 100:
+        raise ValueError(f"percent must be between 0 and 100, got {percent!r}")
+    return total - total * percent / 100
+
+
+def paginate(items, page, size):
+    """Return the items on a 1-indexed page.
+
+    Raises ValueError if page < 1 or size <= 0.
+    """
+    if page < 1:
+        raise ValueError(f"page must be >= 1, got {page!r}")
+    if size <= 0:
+        raise ValueError(f"size must be > 0, got {size!r}")
+    start = (page - 1) * size
+    return items[start:start + size]
+
+
+def merge_tags(new_tags, tags=None):
+    """Add new tags to the list, skipping duplicates."""
+    if tags is None:
+        tags = []
+    for tag in new_tags:
+        if tag not in tags:
+            tags.append(tag)
+    return tags
+
+
+def load_config(path):
+    """Load a JSON config file. Missing files give an empty config."""
+    try:
+        with open(path) as f:
+            return json.load(f)
+    except FileNotFoundError:
+        return {}
+
+
+def average_price(orders):
+    """Return the average unit price across orders (0.0 if there are none)."""
+    if not orders:
+        return 0.0
+    total = sum(o["price"] for o in orders)
+    return total / len(orders)
+
+
+def order_summary(orders):
+    """Return a one-line summary of the orders."""
+    count = len(orders)
+    total = sum(o["price"] * o["qty"] for o in orders)
+    return f"{count} orders, total {total}"
+```

@@ -1,0 +1,115 @@
+{
+  "mode": "verify",
+  "trial": 1,
+  "max_rounds": 5,
+  "rounds": [
+    {
+      "round": 1,
+      "tests_passed_before": 0,
+      "findings": [
+        {
+          "line": 13,
+          "severity": "high",
+          "category": "bug",
+          "title": "Discount divides by 10 instead of 100",
+          "origin": "8eb88eed0a07d0ffa6c47b39a0dca128b538fab9",
+          "orig_line": 13,
+          "seeded": "discount-scale",
+          "kind": "original_line"
+        },
+        {
+          "line": 18,
+          "severity": "high",
+          "category": "bug",
+          "title": "Off-by-one: 1-indexed page should start at (page - 1) * size",
+          "origin": "8eb88eed0a07d0ffa6c47b39a0dca128b538fab9",
+          "orig_line": 18,
+          "seeded": "page-offset",
+          "kind": "original_line"
+        },
+        {
+          "line": 22,
+          "severity": "high",
+          "category": "bug",
+          "title": "Mutable default argument shares tags list across calls",
+          "origin": "8eb88eed0a07d0ffa6c47b39a0dca128b538fab9",
+          "orig_line": 22,
+          "seeded": "mutable-default",
+          "kind": "original_line"
+        },
+        {
+          "line": 33,
+          "severity": "medium",
+          "category": "error-handling",
+          "title": "File opened without context manager; handle is never closed",
+          "origin": "8eb88eed0a07d0ffa6c47b39a0dca128b538fab9",
+          "orig_line": 33,
+          "seeded": "swallow-errors",
+          "kind": "original_line"
+        },
+        {
+          "line": 35,
+          "severity": "medium",
+          "category": "error-handling",
+          "title": "Broad except swallows JSON and permission errors; should catch only FileNotFoundError",
+          "origin": "8eb88eed0a07d0ffa6c47b39a0dca128b538fab9",
+          "orig_line": 35,
+          "seeded": "swallow-errors",
+          "kind": "original_line"
+        },
+        {
+          "line": 42,
+          "severity": "medium",
+          "category": "bug",
+          "title": "ZeroDivisionError when orders list is empty",
+          "origin": "8eb88eed0a07d0ffa6c47b39a0dca128b538fab9",
+          "orig_line": 42,
+          "seeded": "empty-average",
+          "kind": "original_line"
+        },
+        {
+          "line": 8,
+          "severity": "low",
+          "category": "validation",
+          "title": "No validation for non-numeric or negative quantity input",
+          "origin": "8eb88eed0a07d0ffa6c47b39a0dca128b538fab9",
+          "orig_line": 8,
+          "seeded": "negative-qty",
+          "kind": "original_line"
+        },
+        {
+          "line": 11,
+          "severity": "low",
+          "category": "validation",
+          "title": "Percent not validated to be within 0-100",
+          "origin": "8eb88eed0a07d0ffa6c47b39a0dca128b538fab9",
+          "orig_line": 11,
+          "seeded": "discount-scale",
+          "kind": "original_line"
+        },
+        {
+          "line": 41,
+          "severity": "low",
+          "category": "bug",
+          "title": "Average unit price ignores quantity weighting, inconsistent with order_summary",
+          "origin": "8eb88eed0a07d0ffa6c47b39a0dca128b538fab9",
+          "orig_line": 41,
+          "seeded": "empty-average",
+          "kind": "original_line"
+        }
+      ],
+      "fixed_requested": 9,
+      "cost_usd": 0.0669
+    },
+    {
+      "round": 2,
+      "tests_passed_before": 6,
+      "findings": [],
+      "fixed_requested": 0,
+      "cost_usd": 0.0256,
+      "stopped": true
+    }
+  ],
+  "tests_passed_final": 6,
+  "total_cost_usd": 0.0925
+}

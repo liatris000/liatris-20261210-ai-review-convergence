@@ -1,0 +1,206 @@
+{
+  "mode": "severity",
+  "trial": 3,
+  "max_rounds": 5,
+  "rounds": [
+    {
+      "round": 1,
+      "tests_passed_before": 0,
+      "findings": [
+        {
+          "line": 8,
+          "severity": "medium",
+          "category": "validation",
+          "title": "parse_quantity accepts negative/zero quantities and raises unhandled ValueError on non-numeric input",
+          "origin": "fa0141c52c86740de125eed12452be53c4908326",
+          "orig_line": 8,
+          "seeded": "negative-qty",
+          "kind": "original_line"
+        },
+        {
+          "line": 13,
+          "severity": "high",
+          "category": "bug",
+          "title": "Discount divides percent by 10 instead of 100",
+          "origin": "fa0141c52c86740de125eed12452be53c4908326",
+          "orig_line": 13,
+          "seeded": "discount-scale",
+          "kind": "original_line"
+        },
+        {
+          "line": 11,
+          "severity": "medium",
+          "category": "validation",
+          "title": "apply_discount does not validate percent is within 0-100",
+          "origin": "fa0141c52c86740de125eed12452be53c4908326",
+          "orig_line": 11,
+          "seeded": "discount-scale",
+          "kind": "original_line"
+        },
+        {
+          "line": 18,
+          "severity": "high",
+          "category": "bug",
+          "title": "Off-by-one in 1-indexed pagination: start should be (page - 1) * size",
+          "origin": "fa0141c52c86740de125eed12452be53c4908326",
+          "orig_line": 18,
+          "seeded": "page-offset",
+          "kind": "original_line"
+        },
+        {
+          "line": 16,
+          "severity": "low",
+          "category": "validation",
+          "title": "paginate does not reject page < 1 or size <= 0",
+          "origin": "fa0141c52c86740de125eed12452be53c4908326",
+          "orig_line": 16,
+          "seeded": "page-offset",
+          "kind": "original_line"
+        },
+        {
+          "line": 22,
+          "severity": "high",
+          "category": "bug",
+          "title": "Mutable default argument tags=[] is shared across calls",
+          "origin": "fa0141c52c86740de125eed12452be53c4908326",
+          "orig_line": 22,
+          "seeded": "mutable-default",
+          "kind": "original_line"
+        },
+        {
+          "line": 33,
+          "severity": "medium",
+          "category": "error-handling",
+          "title": "File opened without context manager is never closed",
+          "origin": "fa0141c52c86740de125eed12452be53c4908326",
+          "orig_line": 33,
+          "seeded": "swallow-errors",
+          "kind": "original_line"
+        },
+        {
+          "line": 35,
+          "severity": "medium",
+          "category": "error-handling",
+          "title": "Broad except Exception hides JSON errors and permission errors; should catch only FileNotFoundError",
+          "origin": "fa0141c52c86740de125eed12452be53c4908326",
+          "orig_line": 35,
+          "seeded": "swallow-errors",
+          "kind": "original_line"
+        },
+        {
+          "line": 42,
+          "severity": "medium",
+          "category": "bug",
+          "title": "ZeroDivisionError when orders is empty",
+          "origin": "fa0141c52c86740de125eed12452be53c4908326",
+          "orig_line": 42,
+          "seeded": "empty-average",
+          "kind": "original_line"
+        },
+        {
+          "line": 41,
+          "severity": "low",
+          "category": "bug",
+          "title": "average_price ignores quantity; unit price average is unweighted, contrary to likely intent",
+          "origin": "fa0141c52c86740de125eed12452be53c4908326",
+          "orig_line": 41,
+          "seeded": "empty-average",
+          "kind": "original_line"
+        },
+        {
+          "line": 49,
+          "severity": "low",
+          "category": "style",
+          "title": "Total is not formatted as currency (float noise, no 2-decimal rounding)",
+          "origin": "fa0141c52c86740de125eed12452be53c4908326",
+          "orig_line": 49,
+          "seeded": null,
+          "kind": "original_line"
+        },
+        {
+          "line": 1,
+          "severity": "low",
+          "category": "docs",
+          "title": "Docstrings lack parameter types, units, and documented exceptions",
+          "origin": "fa0141c52c86740de125eed12452be53c4908326",
+          "orig_line": 1,
+          "seeded": null,
+          "kind": "original_line"
+        }
+      ],
+      "fixed_requested": 8,
+      "cost_usd": 0.0536
+    },
+    {
+      "round": 2,
+      "tests_passed_before": 6,
+      "findings": [
+        {
+          "line": 25,
+          "severity": "low",
+          "category": "bug",
+          "title": "Monetary discount uses float arithmetic, which can produce rounding errors; consider Decimal or explicit rounding",
+          "origin": "413e35b6154b47d57a5397ec882cfa5735a5c53d",
+          "orig_line": 25,
+          "seeded": null,
+          "kind": "fix_line"
+        },
+        {
+          "line": 38,
+          "severity": "low",
+          "category": "design",
+          "title": "merge_tags mutates the caller's tags list in place, which the docstring does not make clear",
+          "origin": "413e35b6154b47d57a5397ec882cfa5735a5c53d",
+          "orig_line": 38,
+          "seeded": null,
+          "kind": "fix_line"
+        },
+        {
+          "line": 43,
+          "severity": "low",
+          "category": "performance",
+          "title": "Duplicate check is a linear list scan, giving O(n*m) behaviour for large tag lists; track seen tags in a set",
+          "origin": "fa0141c52c86740de125eed12452be53c4908326",
+          "orig_line": 25,
+          "seeded": "mutable-default",
+          "kind": "original_line"
+        },
+        {
+          "line": 51,
+          "severity": "low",
+          "category": "error-handling",
+          "title": "open() has no explicit encoding, so reading depends on the platform locale; pass encoding='utf-8'",
+          "origin": "413e35b6154b47d57a5397ec882cfa5735a5c53d",
+          "orig_line": 51,
+          "seeded": null,
+          "kind": "fix_line"
+        },
+        {
+          "line": 52,
+          "severity": "low",
+          "category": "validation",
+          "title": "Loaded JSON is not checked to be an object, so callers may get a list or scalar instead of a config dict",
+          "origin": "413e35b6154b47d57a5397ec882cfa5735a5c53d",
+          "orig_line": 52,
+          "seeded": null,
+          "kind": "fix_line"
+        },
+        {
+          "line": 69,
+          "severity": "low",
+          "category": "style",
+          "title": "Total is formatted without fixed decimal places, so float totals may print like 10.100000000000001",
+          "origin": "fa0141c52c86740de125eed12452be53c4908326",
+          "orig_line": 49,
+          "seeded": null,
+          "kind": "repeat"
+        }
+      ],
+      "fixed_requested": 0,
+      "cost_usd": 0.0335,
+      "stopped": true
+    }
+  ],
+  "tests_passed_final": 6,
+  "total_cost_usd": 0.0871
+}

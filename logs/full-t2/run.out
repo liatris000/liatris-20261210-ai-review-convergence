@@ -1,0 +1,6 @@
+[full-t2] round 1: findings=10 original_line=10 fix_line=0 repeat=0 tests_passed_before=0/6
+[full-t2] round 2: findings=3 original_line=1 fix_line=2 repeat=0 tests_passed_before=6/6
+[full-t2] round 3: findings=1 original_line=1 fix_line=0 repeat=0 tests_passed_before=6/6
+[full-t2] round 4: findings=2 original_line=0 fix_line=2 repeat=0 tests_passed_before=6/6
+[full-t2] round 5: findings=9 original_line=1 fix_line=7 repeat=1 tests_passed_before=6/6
+[full-t2] done: rounds=5 tests_passed_final=6/6 cost=$0.4063

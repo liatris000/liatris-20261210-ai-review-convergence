@@ -1,0 +1,70 @@
+"""Small order-handling helpers used as the review subject."""
+
+import json
+
+
+def parse_quantity(text):
+    """Parse a quantity string such as "3" into a positive int.
+
+    Raises ValueError with a descriptive message if the text is not a
+    whole number or if the quantity is not positive.
+    """
+    cleaned = text.strip()
+    try:
+        quantity = int(cleaned)
+    except ValueError:
+        raise ValueError(f"Invalid quantity {text!r}: not a whole number") from None
+    if quantity <= 0:
+        raise ValueError(f"Invalid quantity {quantity}: must be positive")
+    return quantity
+
+
+def apply_discount(total, percent):
+    """Return the total after a percentage discount (0-100)."""
+    if not 0 <= percent <= 100:
+        raise ValueError(f"Discount percent must be between 0 and 100, got {percent}")
+    return total - total * percent / 100
+
+
+def paginate(items, page, size):
+    """Return the items on a 1-indexed page."""
+    start = (page - 1) * size
+    return items[start:start + size]
+
+
+def merge_tags(new_tags, tags=None):
+    """Add new tags to the list, skipping duplicates."""
+    if tags is None:
+        tags = []
+    for tag in new_tags:
+        if tag not in tags:
+            tags.append(tag)
+    return tags
+
+
+def load_config(path):
+    """Load a JSON config file. Missing files give an empty config."""
+    try:
+        with open(path) as f:
+            return json.load(f)
+    except FileNotFoundError:
+        return {}
+
+
+def average_price(orders):
+    """Return the simple mean of the unit prices across orders.
+
+    Each order counts once regardless of its quantity; this is not a
+    quantity-weighted average. Returns 0.0 for an empty list of orders.
+    """
+    if not orders:
+        return 0.0
+    total = sum(o["price"] for o in orders)
+    return total / len(orders)
+
+
+def order_summary(orders):
+    """Return a one-line summary of the orders."""
+    count = len(orders)
+    total = sum(o["price"] * o["qty"] for o in orders)
+    return f"{count} orders, total {total}"
